@@ -23,7 +23,7 @@
 - Feature Selection techniques using sklearn
 - Modelling and evaluation of models created using selected features
 
-### hyper-parameter_tuning_model-building:
+### Hyper-parameter_tuning_model-building:
 - Hypertuning using Optuna.
 - Model building (4 models + 1 Voting Classifier)
 - Deployement code
