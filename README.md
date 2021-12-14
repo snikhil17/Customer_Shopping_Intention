@@ -17,7 +17,11 @@
 - The **Special Day** feature indicates the closeness of the site visiting time to a specific special day (e.g. Mother’s Day, Valentine's Day) in which the sessions are more likely to be finalized with transaction. The value of this attribute is determined by considering the dynamics of e-commerce such as the duration between the order date and delivery date. For example, for Valentina’s day, this value takes a nonzero value between February 2 and February 12, zero before and after this date unless it is close to another special day, and its maximum value of 1 on February 8. 
 - The dataset also includes operating system, browser, region, traffic type, visitor type as returning or new visitor, a Boolean value indicating whether the date of the visit is weekend, and month of the year.
 
-## Notebooks: 
+## Appraoch - Notebooks: 
+### Stratify_5_Fold_training_data:
+- Created 5-Stratified Folds using StratifiedKFold from sklearn (Data is unbalanced)
+- New csv file is created with additional column called ``kfold`` and this will be used for creating validation set.
+
 ### EDA_Feature_importance_selection:
 - Exploratory Data Analysis
 - Feature Selection techniques using sklearn
