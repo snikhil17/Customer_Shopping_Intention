@@ -31,3 +31,48 @@
 - Hypertuning using Optuna.
 - Model building (4 models + 1 Voting Classifier)
 - Deployement code
+
+
+# How to use.
+- Clone the Repository
+- Use ``python predict.py`` to run the app locally and then can check the prediction on the given dictionary of variables and values using ``python predict_test.py``
+
+# Docker:
+If you choose to build a docker file locally instead, here are the steps to do so:
+- This allows us to install python, run pipenv and its dependencies, run our predict script and our model itself and deploys our model using Flask/gunicorn.
+
+- Create a Dockerfile as such:
+  - ``FROM python:3.8.12-slim``
+  - ``LABEL maintainer="Nikhil Shrestha"``
+  - ``ENV PYTHONUNBUFFERED=TRUE``
+  - ``RUN pip --no-cache-dir install pipenv``
+  - ``WORKDIR /app``
+  - ``COPY ["Pipfile", "Pipfile.lock", "./"]``
+  - ``RUN set -ex && pipenv install --deploy --system``
+  - ``COPY ["predict.py", "model_final.bin", "./"]``
+  - ``EXPOSE 9696``
+  - ``ENTRYPOINT ["gunicorn", "--bind=0.0.0.0:9696", "predict:app"]``
+
+### Similarly, you can just use the dockerfile in this repository.
+- Build the Docker Container with :
+  - ``docker build -t customer_shopping_prediction .``
+- Run the Docker container with:
+  - ``Docker run -it -p 9696:9696 customer_shopping_prediction``
+- Now we can use our model through
+  - ``python predict_test.py``
+  
+## Virtual environment and package dependencies
+- To ensure all scripts work fine and libraries used during development are the ones which you use during your deployment/testing, Python venv has been used to manage virtual environment and package dependencies. Follow the below steps to setup this up in your environment.
+- The steps to install Python venv will depend on the Operating system you have. Below steps have been provided in reference to installation on Ubuntu, however you can refer to Official documentation at https://docs.python.org/3/tutorial/venv.html to know appropriate steps for your OS.
+- Install pip3 and venv if not installed (below sample commands to be used on Ubuntu hav been provided
+  - ``sudo apt install -y python3-pip python3-venv``
+- Create a virtual environment. Below command creates a virtual environment named mlzoomcamp
+  - ``python3 -m venv mlzoomcamp``
+- Activate the virtual environment.
+  - ``. ./mlzoomcamp/bin/activate``
+- Clone this repo
+  - ``git clone https://github.com/snikhil17/Mid-Term-Project-Zoomcamp.git``
+- Change to the directory that has the required files
+  - ``cd mlzoomcamp-midterm-project/``
+- Install packages required for this project
+  - ``pip install -r requirements.txt``
