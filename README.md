@@ -28,9 +28,16 @@
 - Modelling and evaluation of models created using selected features
 
 ### Hyper-parameter_tuning_model-building:
-- Hypertuning using Optuna.
-- Model building (4 models + 1 Voting Classifier)
-- Deployement code
+- **Hypertuning using Optuna:** 
+  - I've selected f1-score as metrics to decide the final paramters because our data is unbalanced.
+  - For this pupose i've split the data into 5 Stratified Folds which is shown in a separate notebook.
+  - Next I've calculated f1-score for both training and validation set.
+  - For the final function i'm returning the mean_difference of these f1-scores i.e. mean(training_f1) - mean(validation_f1).
+  - This actually returns a value and we need this distance to be as minimum as possible. Why? because if we observe then validation_f1 must be greater and thats possible when the value is as small as possible (negatively)
+- **Model Building:**
+  - Plan here is to build 4 different models each optimized for hyper-parameters using Optuna.
+  - Finally we use these models with Voting Classifier and get the results using all 4 models.
+- **Deployement code**
 
 
 # How to use.
