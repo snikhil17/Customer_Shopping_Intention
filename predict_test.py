@@ -21,7 +21,6 @@ customer = {
     "TrafficType": 3,
     "VisitorType": "Returning_Visitor",
     "Weekend": True,
-    "kfold": 4,
 }
 
 
