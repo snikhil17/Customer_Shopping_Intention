@@ -1,8 +1,8 @@
 # Importing Libraries
 import pandas as pd
 import numpy as np
-import seaborn as sns
-import matplotlib.pyplot as plt
+# import seaborn as sns
+# import matplotlib.pyplot as plt
 from sklearn import preprocessing
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier, BaggingClassifier
@@ -68,22 +68,22 @@ df_test.kfold = df_test.kfold.astype("int")
 params_bg = {"n_estimators": 533, "max_samples": 32}
 model_bg = BaggingClassifier(**params_bg, random_state=7)
 
-params_lgb = {
-    "objective": "binary",
-    "boosting_type": "gbdt",
-    "num_leaves": 47,
-    "max_depth": 17,
-    "learning_rate": 0.331,
-    "n_estimators": 469,
-    "reg_alpha": 30.654408167803027,
-    "reg_lambda": 8.742258358130245,
-    "subsample": 0.45,
-    "subsample_freq": 9,
-    "colsample_bytree": 0.49,
-    "min_child_samples": 26,
-    "min_child_weight": 32,
-}
-model_lgb = LGBMClassifier(**params_lgb, random_state=6)
+# params_lgb = {
+#     "objective": "binary",
+#     "boosting_type": "gbdt",
+#     "num_leaves": 47,
+#     "max_depth": 17,
+#     "learning_rate": 0.331,
+#     "n_estimators": 469,
+#     "reg_alpha": 30.654408167803027,
+#     "reg_lambda": 8.742258358130245,
+#     "subsample": 0.45,
+#     "subsample_freq": 9,
+#     "colsample_bytree": 0.49,
+#     "min_child_samples": 26,
+#     "min_child_weight": 32,
+# }
+# model_lgb = LGBMClassifier(**params_lgb, random_state=6)
 
 
 params_mlp = {"alpha": 0.09631013728513668, "hidden_layer_sizes": 7, "max_iter": 30}
@@ -121,7 +121,7 @@ for fold in range(5):
     model_vclf = VotingClassifier(
         estimators=[
             ("BaggingClassifier", model_bg),
-            ("LightGBM", model_lgb),
+            # ("LightGBM", model_lgb),
             ("MLPClassifier", model_mlp),
             ("DecisionTree", model_dt),
         ],
@@ -153,11 +153,11 @@ with open(output_file, "wb") as f_out:
 print(f"the model is saved to {output_file}")
 
 
-"""Save the LGB model"""
-output_file = f"model_lgb.bin"
+# """Save the LGB model"""
+# output_file = f"model_lgb.bin"
 
-with open(output_file, "wb") as f_out:
-    pickle.dump(model_lgb, f_out)
+# with open(output_file, "wb") as f_out:
+#     pickle.dump(model_lgb, f_out)
 
 
 print(f"the model is saved to {output_file}")
@@ -213,22 +213,22 @@ def preprocess_train(df_train, y_train):
     params_bg = {"n_estimators": 533, "max_samples": 32}
     model_bg = BaggingClassifier(**params_bg, random_state=7)
 
-    params_lgb = {
-        "objective": "binary",
-        "boosting_type": "gbdt",
-        "num_leaves": 47,
-        "max_depth": 17,
-        "learning_rate": 0.331,
-        "n_estimators": 469,
-        "reg_alpha": 30.654408167803027,
-        "reg_lambda": 8.742258358130245,
-        "subsample": 0.45,
-        "subsample_freq": 9,
-        "colsample_bytree": 0.49,
-        "min_child_samples": 26,
-        "min_child_weight": 32,
-    }
-    model_lgb = LGBMClassifier(**params_lgb, random_state=6)
+    # params_lgb = {
+    #     "objective": "binary",
+    #     "boosting_type": "gbdt",
+    #     "num_leaves": 47,
+    #     "max_depth": 17,
+    #     "learning_rate": 0.331,
+    #     "n_estimators": 469,
+    #     "reg_alpha": 30.654408167803027,
+    #     "reg_lambda": 8.742258358130245,
+    #     "subsample": 0.45,
+    #     "subsample_freq": 9,
+    #     "colsample_bytree": 0.49,
+    #     "min_child_samples": 26,
+    #     "min_child_weight": 32,
+    # }
+    # model_lgb = LGBMClassifier(**params_lgb, random_state=6)
 
     params_mlp = {"alpha": 0.09631013728513668, "hidden_layer_sizes": 7, "max_iter": 30}
     model_mlp = MLPClassifier(**params_mlp, random_state=17, tol=1e-4)
@@ -245,7 +245,7 @@ def preprocess_train(df_train, y_train):
     model = VotingClassifier(
         estimators=[
             ("BaggingClassifier", model_bg),
-            ("LightGBM", model_lgb),
+            # ("LightGBM", model_lgb),
             ("MLPClassifier", model_mlp),
             ("DecisionTree", model_dt),
         ],
@@ -256,7 +256,7 @@ def preprocess_train(df_train, y_train):
     return le, dv, pt, scaler, model
 
 
-def predict(df, pt, scaler, dv, model):
+def predict_(df, pt, scaler, dv, model):
     df.Weekend = le.transform(df.Weekend)
     dicts = df.to_dict(orient="records")
     X = dv.transform(dicts)
@@ -276,11 +276,15 @@ le, dv, pt, scaler, model = preprocess_train(xtrain, ytrain)
 df_q = df.head(20)
 xtrain = df_q.drop(["Revenue", "kfold"], axis=1)
 ytrain = df_q.Revenue
-preds_train = predict(xtrain, pt, scaler, dv, model)
+preds_train = predict_(xtrain, pt, scaler, dv, model)
 print([(i, j) for i, j in zip(ytrain, preds_train)][:20])
 
-output_file = f"model_final.bin"
-with open(output_file, "wb") as f_out:
-    pickle.dump((le, dv, pt, scaler, model), f_out)
+output_file_model = f"model_final.bin"
+with open(output_file_model, "wb") as f_out:
+    pickle.dump((model), f_out)
 
-print(f"the model is saved to {output_file}")
+output_file_preprop = f"pre_processing.bin"
+with open(output_file_preprop, "wb") as f_out:
+    pickle.dump((le, dv, pt, scaler), f_out)
+
+print(f"the model is saved to {output_file_model}")

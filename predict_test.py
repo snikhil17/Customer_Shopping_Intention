@@ -20,7 +20,7 @@ customer = {
     "SpecialDay": 0.0,
     "TrafficType": 3,
     "VisitorType": "Returning_Visitor",
-    "Weekend": True,
+    "Weekend": False,
 }
 
 
