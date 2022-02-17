@@ -42,7 +42,10 @@
 
 # How to use.
 - Clone the Repository
-- Use ``python predict.py`` to run the app locally and then can check the prediction on the given dictionary of variables and values using ``python predict_test.py``
+- Create a virtual environment (recommended but not compulsory) 
+- Make sure you are in the Repository folder. 
+- Run ``pipenv install`` to install all packages as per the dependencies required for this project. 
+- Use ``pipenv run predict.py`` to run the app locally and then can check the prediction on the given dictionary of variables and values using ``pipenv run predict_test.py``
 
 # Docker:
 
