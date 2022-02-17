@@ -53,7 +53,7 @@
 #### **Use following command on anaconda promt or terminal (MAC or Linux) to run the image locally i.e. to run the application (we are using Flask and waitress to serve the app).**
 - ``docker run -it --rm -p 9696:9696 snikhil17/customer_shopping_intention``
 #### **Open another anaconda promt or terminal (MAC or Linux) and navigate to the same location as above and then use following command to get the results as per the variables specified in ``predict_test.py``**
-- python predict_test.py
+- ``python predict_test.py``
 
 ### If you choose to build a docker file locally instead, here are the steps to do so:
 - This allows us to install python, run pipenv and its dependencies, run our predict script and our model itself and deploys our model using Flask/gunicorn.
