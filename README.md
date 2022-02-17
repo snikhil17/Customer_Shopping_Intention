@@ -45,20 +45,27 @@
 - Use ``python predict.py`` to run the app locally and then can check the prediction on the given dictionary of variables and values using ``python predict_test.py``
 
 # Docker:
-If you choose to build a docker file locally instead, here are the steps to do so:
+
+## To use the already created image and run on local machine:
+
+#### **Download the image running following command on anaconda promt or terminal (MAC or Linux)**
+- ``docker pull snikhil17/customer_shopping_intention``
+#### **Use following command on anaconda promt or terminal (MAC or Linux) to run the image locally i.e. to run the application (we are using Flask and waitress to serve the app).**
+- ``docker run -it --rm -p 9696:9696 snikhil17/customer_shopping_intention``
+#### **Open another anaconda promt or terminal (MAC or Linux) and navigate to the same location as above and then use following command to get the results as per the variables specified in ``predict_test.py``**
+- python predict_test.py
+
+### If you choose to build a docker file locally instead, here are the steps to do so:
 - This allows us to install python, run pipenv and its dependencies, run our predict script and our model itself and deploys our model using Flask/gunicorn.
 
 - Create a Dockerfile as such:
   - ``FROM python:3.8.12-slim``
-  - ``LABEL maintainer="Nikhil Shrestha"``
-  - ``ENV PYTHONUNBUFFERED=TRUE``
   - ``RUN pip --no-cache-dir install pipenv``
   - ``WORKDIR /app``
-  - ``COPY ["Pipfile", "Pipfile.lock", "./"]``
-  - ``RUN set -ex && pipenv install --deploy --system``
-  - ``COPY ["predict.py", "model_final.bin", "./"]``
+  - ``COPY . /app``
+  - ``RUN pipenv install --deploy --system``
   - ``EXPOSE 9696``
-  - ``ENTRYPOINT ["gunicorn", "--bind=0.0.0.0:9696", "predict:app"]``
+  - ``ENTRYPOINT ["waitress-serve", "--listen=0.0.0.0:9696", "predict:app"]``
 
 ### Similarly, you can just use the dockerfile in this repository.
 - Build the Docker Container with :
